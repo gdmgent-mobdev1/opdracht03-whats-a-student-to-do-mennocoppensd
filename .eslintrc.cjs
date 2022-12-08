@@ -10,5 +10,6 @@ module.exports = {
     project: './tsconfig.json'
   },
   rules: {
+    'linebreak-style': 0, 
   }
-}
+}  

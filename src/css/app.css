@@ -1,0 +1,131 @@
+@import url(https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Quicksand:wght@300;400;500&family=Roboto&display=swap);
+@property --rotate {
+    syntax: "<angle>";
+    initial-value: 132deg;
+    inherits: false;
+  }
+
+.headerLogin { 
+    text-align: center;
+}
+
+h1 {
+    font-size: 2em;
+    font-weight: 300;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+
+h2 {
+    font-size: 1.2em;
+    font-weight: 300;
+    color: #fff;
+    letter-spacing: 2px;
+}
+.login-page {
+  width: 360px;
+  padding: 8% 0 0;
+  margin: auto;
+}
+.form {
+  position: relative;
+  z-index: 1;
+  background: #191c29;
+  max-width: 360px;
+  margin: 0 auto 100px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.form input {
+  font-family: "Poppins", sans-serif;
+  outline: 0;
+  background: #2d2f38;
+  color: #fff;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.form button {
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #5ddcff;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.form button:hover,.form button:active,.form button:focus {
+  background: #4ebad8;
+}
+.form .message {
+  margin: 15px 0 0;
+  color: #fff;
+  font-size: 12px;
+}
+.form .message a {
+  color: #5ddcff;
+  text-decoration: none;
+}
+.form .register-form {
+  display: none;
+}
+
+.form:hover {
+  color: rgb(88 199 250 / 100%);
+  transition: color 1s;
+}
+.form:hover:before, .form:hover:after {
+  animation: none;
+  opacity: 0;
+}
+
+.form::before {
+  content: "";
+  background-image: linear-gradient(
+    var(--rotate)
+    , #5ddcff02, #3c66e302 43%, #4e00c202);
+    position: absolute;
+    z-index: -1;
+    top: -1%;
+    left: -2%;
+    animation: spin 3.5s linear infinite;
+}
+
+.form::after {
+  position: absolute;
+  content: "";
+  top: calc(360px / 6);
+  left: 0;
+  right: 0;
+  z-index: -1;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  transform: scale(0.8);
+  filter: blur(calc(360px / 6));
+  background-image: linear-gradient(
+    var(--rotate)
+    , #5ddcff7f, #3c66e370 43%, #4e00c270);
+    opacity: 1;
+  transition: opacity .5s;
+  animation: spin 3.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    --rotate: 0deg;
+  }
+  100% {
+    --rotate: 360deg;
+  }
+}

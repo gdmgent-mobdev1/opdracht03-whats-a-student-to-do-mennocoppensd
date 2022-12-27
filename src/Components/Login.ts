@@ -15,7 +15,7 @@ class LoginComponent extends Component {
     const loginContainer = document.createElement('div');
     loginContainer.appendChild(
       Elements.createHeader({
-        textContent: 'Welcome to this page',
+        textContent: '',
       }),
     );
     return loginContainer;

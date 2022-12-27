@@ -3,11 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="" />
+    <link rel="stylesheet" href="./src/css/styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
+    <title>TimeTiger</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <header class="headerLogin">
+        <h1>Welcome to TimeTiger!</h1>
+        <h2>TimeTiger is a time management app that helps you to manage your time and tasks.</h2>
+        </header>
+          <div class="login-page">
+            <div class="form">
+              <form class="register-form">
+                <input type="text" placeholder="username" />
+                <input type="password" placeholder="password" />
+                <input type="text" placeholder="email address" />
+                <button>create</button>
+                <p class="message">
+                  Already registered? <a href="#">Sign In</a>
+                </p>
+              </form>
+              <form class="login-form">
+                <input type="email" placeholder="email" />
+                <input type="password" placeholder="password" />
+                <button>login</button>
+                <p class="message">
+                  Not registered? <a href="#">Create an account</a>
+                </p>
+              </form>
+            </div>
+          </div>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

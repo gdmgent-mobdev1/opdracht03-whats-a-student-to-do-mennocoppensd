@@ -1,0 +1,12 @@
+:root {
+    --white: #FFF;
+}
+
+body {
+    background: #212534; /* fallback for old browsers */
+    background: #212534;
+    background: linear-gradient(90deg, #212534 0%,#323645 50%);
+    font-family: "Poppins", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;      
+  }

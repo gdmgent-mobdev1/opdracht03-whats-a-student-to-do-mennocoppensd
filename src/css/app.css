@@ -18,13 +18,17 @@ h1 {
 }
 
 h2 {
-    font-size: 1.2em;
+    font-size: 1.0em;
     font-weight: 300;
     color: #fff;
     letter-spacing: 2px;
+    text-align: center;
+    width: 360px;
+    margin: auto;
+    margin-top: -10px;
 }
 .login-page {
-  width: 360px;
+  width: 90%;
   padding: 8% 0 0;
   margin: auto;
 }
@@ -129,3 +133,66 @@ h2 {
     --rotate: 360deg;
   }
 }
+
+/*
+* Firebase 0Auth google, facebook, twitter button 
+*/
+
+
+button {
+    background-color: #F4B400;
+    border-radius: 70px;
+    cursor: pointer; 
+
+      margin-top: 20px;
+      height: 3.125rem;
+      width: 100%;
+
+      outline: none;
+      border: none;
+  
+      padding: 0.625rem;
+      filter: drop-shadow(0 4px 6px -1px #000000), 0 2px 4px -2px #000000;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 1.157rem;
+      color: #fff;
+    
+  }
+
+  .login-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 360px;
+    padding-top: 1%;
+    padding-bottom:20%;
+    margin: auto;
+  }
+
+  button.google:hover {
+    background-color: #000;
+    transition: all 0.4s ease-in-out;
+  }
+
+
+  button.facebook {
+    background-color: #4267B2;
+    border-radius: 70px;
+    cursor: pointer;
+  }
+  button.facebook:hover {
+    background-color: #000;
+    transition: all 0.4s ease-in-out;
+  }
+  button.twitter {
+    background-color: #1DA1F2;
+    border-radius: 70px;
+    color: #F5F8FA;
+    cursor: pointer;
+  }
+  button.twitter:hover {
+    background-color: #000;
+    transition: all 0.4s ease-in-out;
+  }

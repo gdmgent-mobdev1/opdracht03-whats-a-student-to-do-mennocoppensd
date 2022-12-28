@@ -1,7 +1,7 @@
 /**
  * My Elements Helper
  */
-const Elements = {
+const Elements:any = {
   createHeader({
     size = 1, textContent = '',
   }) {

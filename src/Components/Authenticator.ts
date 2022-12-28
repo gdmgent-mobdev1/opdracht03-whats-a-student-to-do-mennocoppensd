@@ -27,6 +27,10 @@ import {
 
 import Router from './Router';
 
+// add event handlers to register button
+const btnRegister = document.getElementById('btnRegister');
+btnRegister.addEventListener('click', createUserWithEmailAndPassword);
+
 class Authenticator {
   //  Shows the error on screen
   static showError(error: unknown) {

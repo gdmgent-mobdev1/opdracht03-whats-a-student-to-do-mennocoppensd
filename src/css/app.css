@@ -27,7 +27,7 @@ h2 {
     margin: auto;
     margin-top: -10px;
 }
-.login-page {
+.loginContainer {
   width: 90%;
   padding: 8% 0 0;
   margin: auto;
@@ -169,6 +169,11 @@ button {
     padding-top: 1%;
     padding-bottom:20%;
     margin: auto;
+  }
+  .login-page {
+    padding-top: 8%;
+    max-width: 90%;
+    margin: 0 auto;
   }
 
   button.google:hover {

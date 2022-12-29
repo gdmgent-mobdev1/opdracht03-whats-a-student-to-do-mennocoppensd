@@ -27,10 +27,6 @@ import {
 
 import Router from './Router';
 
-// add event handlers to register button
-const btnRegister = document.getElementById('btnRegister');
-btnRegister.addEventListener('click', createUserWithEmailAndPassword);
-
 class Authenticator {
   //  Shows the error on screen
   static showError(error: unknown) {
@@ -76,7 +72,7 @@ class Authenticator {
 
       Router.getRouter().navigate('/edit-profile');
     } catch (e) {
-      this.showError(e);
+      Authenticator.showError(e);
     }
   }
 
@@ -90,7 +86,7 @@ class Authenticator {
       await signInWithEmailAndPassword(auth, email, password);
       Router.getRouter()?.navigate('/home');
     } catch (e) {
-      this.showError(e);
+      Authenticator.showError(e);
     }
   }
 
@@ -100,10 +96,11 @@ class Authenticator {
 
     try {
       await signInWithPopup(auth, provider);
-      const docRef = doc(dbFirestore, 'users', this.getCurrentUserId());
+      const docRef = doc(dbFirestore, 'users', Authenticator.getCurrentUserId());
       const docSnap = await getDoc(docRef);
 
-      if (docSnap.exists()) {
+      if (docSnap
+        .exists()) {
         console.log('bestaat al');
 
         Router.getRouter()?.navigate('/home');
@@ -111,20 +108,20 @@ class Authenticator {
         Router.getRouter()?.navigate('/edit-profile');
       }
     } catch (e) {
-      this.showError(e);
+      Authenticator.showError(e);
     }
   }
 
   /**
- * Login with Facebook
- */
+     * Login with Facebook
+     */
 
   static async loginFacebook() {
     const provider = new FacebookAuthProvider();
 
     try {
       await signInWithPopup(auth, provider);
-      const docRef = doc(dbFirestore, 'users', this.getCurrentUserId());
+      const docRef = doc(dbFirestore, 'users', Authenticator.getCurrentUserId());
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -135,20 +132,20 @@ class Authenticator {
         Router.getRouter()?.navigate('/edit-profile');
       }
     } catch (e) {
-      this.showError(e);
+      Authenticator.showError(e);
     }
   }
 
   /**
- * Login with Twitter
- */
+     * Login with Twitter
+     */
 
   static async loginTwitter() {
     const provider = new TwitterAuthProvider();
 
     try {
       await signInWithPopup(auth, provider);
-      const docRef = doc(dbFirestore, 'users', this.getCurrentUserId());
+      const docRef = doc(dbFirestore, 'users', Authenticator.getCurrentUserId());
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -159,22 +156,21 @@ class Authenticator {
         Router.getRouter()?.navigate('/edit-profile');
       }
     } catch (e) {
-      this.showError(e);
+      Authenticator.showError(e);
     }
   }
 
-  //  Logs the user out
+  /**
+     * Log out
+     */
+
   static async logout() {
-    await signOut(auth);
-    Router.getRouter()?.navigate('/');
-  }
-
-  //  Deletes a user
-  static async deleteUser() {
-    const uId = this.getCurrentUserId();
-
-    //  Deletes all the projects the user has created
-    // TODO: delete all the projects the user has created
+    try {
+      await signOut(auth);
+      Router.getRouter()?.navigate('/login');
+    } catch (e) {
+      Authenticator.showError(e);
+    }
   }
 }
 

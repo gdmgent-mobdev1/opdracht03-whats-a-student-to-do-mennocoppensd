@@ -12,17 +12,15 @@ class LoginComponent extends Component {
     super({
       name: 'login',
       model: {
+        title: 'TimeTiger',
+        subtitle: 'TimeTiger is a time management app that helps you to manage your time and tasks.',
         forms: [
           'Email',
           'Password',
         ],
-        header: {
-          textContent: 'OF',
-        },
-        loginButton: {
-          textContent: 'login',
+        button: {
+          textContent: 'Login',
           onClick: () => Authenticator.login(),
-          className: 'loginButton',
         },
         googleButton: {
           innerHTML: '<i class="fa-brands fa-google"></i>',
@@ -40,44 +38,85 @@ class LoginComponent extends Component {
           onClick: () => Authenticator.loginTwitter(),
         },
       },
-      routerPath: '/',
+      routerPath: '/login',
     });
   }
 
   render() {
     const {
-      title, forms, loginButton, googleButton, facebookButton, twitterButton,
+      title, subtitle, googleButton, facebookButton, twitterButton,
     } = this.model;
     const elements:any[] = [];
-    const formElements:any[] = [];
-
+    const forms:any[] = [];
     this.clearComponentContainer();
 
-    elements.push(Elements.createHeader({
-      size: 2,
-      textContent: title,
-      className: 'text-center',
-    }));
+    // Header
+    const header = document.createElement('header');
+    header.classList.add('headerLogin');
 
-    elements.push(Elements.createErrorContainer({}));
+    const titleElement = document.createElement('h1');
+    titleElement.textContent = title;
+    header.appendChild(titleElement);
 
-    // forms.forEach((form:any) => {
-    //   formElements.push(Elements.createFormElement({
-    //     type: form.toLowerCase(),
-    //     placeholder: form,
-    //     name: form.toLowerCase(),
-    //   }));
-    // });
+    const subtitleElement = document.createElement('h2');
+    subtitleElement.textContent = subtitle;
+    header.appendChild(subtitleElement);
 
-    // elements.push(Elements.createForm({
-    //   children: formElements,
-    // }));
+    // Login page
+    const loginPage = document.createElement('div');
+    loginPage.classList.add('login-page');
 
-    // elements.push(Elements.createButton({
-    //   textContent: loginButton.textContent,
-    //   onClick: loginButton.onClick,
-    //   className: loginButton.className,
-    // }));
+    // Form container
+    const formContainer = document.createElement('div');
+    formContainer.classList.add('form');
+
+    // Login form
+    const loginForm = document.createElement('form');
+    loginForm.classList.add('login-form');
+    loginForm.action = '#';
+
+    const emailInput = document.createElement('input');
+    emailInput.type = 'email';
+    emailInput.placeholder = 'email';
+    emailInput.name = 'email';
+    loginForm.appendChild(emailInput);
+
+    const passwordInput = document.createElement('input');
+    passwordInput.type = 'password';
+    passwordInput.placeholder = 'password';
+    passwordInput.name = 'password';
+    loginForm.appendChild(passwordInput);
+
+    const loginButton = document.createElement('button');
+    loginButton.id = 'btnLogin';
+    loginButton.textContent = 'Login';
+    loginButton.onclick = () => {
+      Authenticator.login();
+      (Router as any).navigate('/home');
+    };
+    loginForm.appendChild(loginButton);
+
+    const loginMessage = document.createElement('p');
+    loginMessage.classList.add('message');
+    loginMessage.textContent = 'Not registered? ';
+
+    const signUpLink = document.createElement('a');
+    signUpLink.href = '/';
+    signUpLink.textContent = 'Create an account';
+    loginMessage.appendChild(signUpLink);
+    loginForm.appendChild(loginMessage);
+
+    formContainer.appendChild(loginForm);
+
+    // Error container
+    const errorContainer = document.createElement('div');
+    errorContainer.classList.add('errorContainer', 'hide');
+    formContainer.appendChild(errorContainer);
+
+    loginPage.appendChild(formContainer);
+
+    this.componentContainer.appendChild(header);
+    this.componentContainer.appendChild(loginPage);
 
     elements.push(Elements.createHeader({
       size: 2,
@@ -110,82 +149,3 @@ class LoginComponent extends Component {
 }
 
 export default LoginComponent;
-
-// import Component from '../lib/Component';
-// import Elements from '../lib/Elements';
-// import Router from './Router';
-// import Authenticator from './Authenticator';
-
-// // inheritence
-// class LoginComponent extends Component {
-//   constructor() {
-//     super({
-//       name: 'Login',
-//       model: {
-//         loginButton: {
-//           textContent: 'login',
-//           onClick: () => Authenticator.login(),
-//         },
-//         googleButton: {
-//           innerHTML: '<i class="fa-brands fa-google"></i>',
-//           className: 'google',
-//           onClick: () => Authenticator.loginGoogle(),
-//         },
-//         facebookButton: {
-//           innerHTML: '<i class="fa-brands fa-facebook"></i>',
-//           className: 'facebook',
-//           onClick: () => Authenticator.loginFacebook(),
-//         },
-//         twitterButton: {
-//           innerHTML: '<i class="fa-brands fa-twitter"></i>',
-//           className: 'twitter',
-//           onClick: () => Authenticator.loginTwitter(),
-//         },
-//       },
-//       routerPath: '/',
-//     });
-//   }
-
-//   // eslint-disable-next-line class-methods-use-this
-//   render() {
-//     const loginContainer = document.createElement('div');
-//     loginContainer.className = 'login-buttons';
-//     loginContainer.appendChild(
-//       Elements.createHeader({
-//         textContent: 'OF',
-//         size: 2,
-//       }),
-//     );
-
-//     const googleButton = document.createElement('button');
-//     loginContainer.appendChild(
-//       Elements.createButton({
-//         className: 'google',
-//         innerHTML: '<i class="fa-brands fa-google"></i>',
-//         onClick: googleButton.click,
-//       }),
-//       // facebook en twitter button verder maken zoals google button
-//     );
-//     const facebookButton = document.createElement('button');
-//     facebookButton.className = 'facebook';
-//     loginContainer.appendChild(
-//       Elements.createButton({
-//         className: 'facebook',
-//         innerHTML: '<i class="fa-brands fa-facebook"></i>',
-//         onClick: facebookButton.click,
-//       }),
-//     );
-//     const twitterButton = document.createElement('button');
-//     loginContainer.appendChild(
-//       Elements.createButton({
-//         className: 'twitter',
-//         innerHTML: '<i class="fa-brands fa-twitter"></i>',
-//         onClick: twitterButton.click,
-//       }),
-//     );
-
-//     return loginContainer;
-//   }
-// }
-
-// export default LoginComponent;

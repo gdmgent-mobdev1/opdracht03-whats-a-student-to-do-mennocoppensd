@@ -1,16 +1,30 @@
 import './css/styles.css';
+import App from './App';
 
-import { LoginComponent } from './Components';
+import {
+  RegisterComponent,
+  LoginComponent,
+  EditProfileComponent,
+} from './Components';
 
-const login = new LoginComponent();
+import Router from './Components/Router';
+
+// const login = ;
+// const register = new RegisterComponent();
+// const editProfile = new EditProfileComponent();
 
 const appContainer = document.querySelector<HTMLDivElement>('#app')!;
-
-appContainer.appendChild(login.render());
+const app = new App(appContainer);
 
 $('.message a').click(() => {
   $('form').animate({ height: 'toggle', opacity: 'toggle' }, 'slow');
 });
+
+app.addComponent(new RegisterComponent());
+app.addComponent(new LoginComponent());
+app.addComponent(new EditProfileComponent());
+// appContainer.appendChild(register.render());
+// appContainer.appendChild(await editProfile.renderAsync());
 
 // submit button met click event listener
 

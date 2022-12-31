@@ -42,7 +42,7 @@ class Authenticator {
 
   //  Gets the current userId
   static getCurrentUserId() {
-    return this.getCurrentUser()?.uid;
+    return this.getCurrentUser().uid;
   }
 
   static async getAllUsers() {
@@ -84,7 +84,7 @@ class Authenticator {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      Router.getRouter()?.navigate('/home');
+      Router.getRouter().navigate('/home');
     } catch (e) {
       Authenticator.showError(e);
     }
@@ -103,9 +103,9 @@ class Authenticator {
         .exists()) {
         console.log('bestaat al');
 
-        Router.getRouter()?.navigate('/home');
+        Router.getRouter().navigate('/home');
       } else {
-        Router.getRouter()?.navigate('/edit-profile');
+        Router.getRouter().navigate('/edit-profile');
       }
     } catch (e) {
       Authenticator.showError(e);

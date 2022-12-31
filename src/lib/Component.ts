@@ -3,10 +3,6 @@
  * The Component parent
  */
 
-/**
- * The Component parent
- */
-
 import { DocumentData } from '@firebase/firestore';
 import Elements from './Elements';
 import {
@@ -40,7 +36,7 @@ class Component {
 
   createComponentContainer() {
     return Elements.createContainer({
-      className: `${this.name}-buttons`,
+      className: 'buttons',
     });
   }
 

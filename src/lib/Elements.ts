@@ -2,10 +2,6 @@
  * My Elements Helper
  */
 
-/**
- * My Elements Helper
- */
-
 const Elements:any = {
   createButton({
     textContent = '',

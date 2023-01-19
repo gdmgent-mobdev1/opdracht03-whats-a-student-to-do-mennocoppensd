@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@types/jquery": "^3.5.14",
+    "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.46.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^8.29.0",
@@ -25,9 +26,11 @@
   },
   "dependencies": {
     "@firebase/firestore": "^3.8.0",
+    "@firebase/firestore-types": "^2.5.1",
     "firebase": "^9.15.0",
     "lit-element": "^3.2.2",
     "lit-html": "^2.5.0",
-    "navigo": "^8.11.1"
+    "navigo": "^8.11.1",
+    "uuid": "^9.0.0"
   }
 }

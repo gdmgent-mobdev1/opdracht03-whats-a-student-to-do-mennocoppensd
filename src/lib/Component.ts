@@ -5,38 +5,63 @@
 
 import { DocumentData } from '@firebase/firestore';
 import Elements from './Elements';
-import {
-  dbFirestore, doc, getDoc,
-} from '../Components/firebase';
-import Authenticator from '../Components/Authenticator';
+import { fireStoreDb, doc, getDoc } from '../Components/firebase';
+import Authenticator from '../Components/Auth/AuthenticateUser';
+import Invite from '../Components/Invite/Invite';
 
+/**
+ * Component class, it's a generic class to hold all common functionality
+ * of all classes that inherits from it.
+ */
 class Component {
-  model: any;
+  // Properties of the class
 
-  props: any;
+  public name: any;
 
-  routerPath: any;
+  public model: any;
 
-  componentContainer: any;
+  public props: any;
 
-  name: any;
+  public navigation: any;
 
+  public routerPath: any;
+
+  public componentContainer: any;
+
+  /**
+   * Constructor function that initialize the properties of the class
+   * @param {string} name
+   * @param {object} model
+   * @param {object} props
+   * @param {string} routerPath
+   * @param {object} navigation
+   */
   constructor({
-    name,
-    model,
-    routerPath,
+    name = '',
+    model = {},
     props = null,
+    routerPath = '',
+    navigation = null,
+  }: {
+    name?: string;
+    model?: any;
+    props?: any;
+    routerPath?: string;
+    navigation?: any;
   }) {
     this.name = name;
     this.model = model;
     this.props = props;
     this.componentContainer = this.createComponentContainer();
     this.routerPath = routerPath;
+    this.navigation = navigation;
   }
+
+  // Credits: code snippet (line 61-85) from Bjorn's code
 
   createComponentContainer() {
     return Elements.createContainer({
-      className: 'buttons',
+      className: `${this.name}-container`,
     });
   }
 
@@ -46,24 +71,30 @@ class Component {
     }
   }
 
-  //  Gets user data out of the firestore
   async getUserData() {
-    const uId = Authenticator.getCurrentUserId();
+    const uId = Authenticator.getUid();
 
-    const docRef = doc(dbFirestore, 'users', uId);
+    const docRef = doc(fireStoreDb, 'users', uId);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
       this.changeModel(docSnap.data());
-    } else {
-      console.log('no user');
-    }
+    } else { console.log('no user'); }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, class-methods-use-this
-  changeModel(_arg0: DocumentData) {
-    throw new Error('Method not implemented.');
+  async getInviteData() {
+    const inviteId = await Invite.getInvites();
+    const docRef = doc(fireStoreDb, 'invites', inviteId);
+
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      this.changeModel(docSnap.data());
+    } else { console.log('no user'); }
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  changeModel(_data: DocumentData) { throw new Error('Method not implemented.'); }
 }
 
 export default Component;

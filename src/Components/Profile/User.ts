@@ -3,12 +3,22 @@
  */
 
 import {
-  doc, setDoc, dbFirestore,
-} from './firebase';
-import Router from './Router';
-import Authenticator from './Authenticator';
+  doc, setDoc, fireStoreDb,
+} from '../firebase';
+import Router from '../Router';
+import Authenticator from '../Auth/AuthenticateUser';
 
 class User {
+  name: string;
+
+  surname: string;
+
+  username: string;
+
+  telephoneNumber: string;
+
+  imageURL: string;
+
   constructor({
     name = '',
     surname = '',
@@ -24,10 +34,10 @@ class User {
   }
 
   async writeUserData() {
-    const uId = Authenticator.getCurrentUserId();
+    const uId = Authenticator.getUid();
     //  Creates userdata in the firestore
 
-    await setDoc(doc(dbFirestore, 'users', uId), {
+    await setDoc(doc(fireStoreDb, 'users', uId), {
       name: this.name,
       surname: this.surname,
       username: this.username,

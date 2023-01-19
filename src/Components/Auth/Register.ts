@@ -1,16 +1,16 @@
 /**
- * Login Page Component
+ * Register Page Component
  */
 
-import Component from '../lib/Component';
-import Elements from '../lib/Elements';
-import Router from './Router';
-import Authenticator from './Authenticator';
+import Component from '../../lib/Component';
+import Elements from '../../lib/Elements';
+import Router from '../Router';
+import Authenticator from './AuthenticateUser';
 
-class LoginComponent extends Component {
+class RegisterComponent extends Component {
   constructor() {
     super({
-      name: 'login',
+      name: 'register',
       model: {
         title: 'TimeTiger',
         subtitle: 'TimeTiger is a time management app that helps you to manage your time and tasks.',
@@ -19,8 +19,11 @@ class LoginComponent extends Component {
           'Password',
         ],
         button: {
-          textContent: 'Login',
-          onClick: () => Authenticator.login(),
+          textContent: 'Create',
+          onClick: () => {
+            Authenticator.register();
+            Router.getRouter().navigate('/edit-profile');
+          },
         },
         googleButton: {
           innerHTML: '<i class="fa-brands fa-google"></i>',
@@ -38,16 +41,16 @@ class LoginComponent extends Component {
           onClick: () => Authenticator.loginTwitter(),
         },
       },
-      routerPath: '/login',
+      routerPath: '/register',
+      navigation: false,
     });
   }
 
   render() {
     const {
-      title, subtitle, googleButton, facebookButton, twitterButton,
+      title, subtitle, button, googleButton, facebookButton, twitterButton,
     } = this.model;
-    const elements:any[] = [];
-    const forms:any[] = [];
+    const elements: any[] = [];
     this.clearComponentContainer();
 
     // Header
@@ -70,43 +73,44 @@ class LoginComponent extends Component {
     const formContainer = document.createElement('div');
     formContainer.classList.add('form');
 
-    // Login form
-    const loginForm = document.createElement('form');
-    loginForm.classList.add('login-form');
-    loginForm.action = '#';
+    // Register form
+    const registerForm = document.createElement('form');
+    registerForm.classList.add('register-form');
+    registerForm.action = '#';
 
     const emailInput = document.createElement('input');
     emailInput.type = 'email';
     emailInput.placeholder = 'email';
     emailInput.name = 'email';
-    loginForm.appendChild(emailInput);
+    emailInput.id = 'email_register';
+    registerForm.appendChild(emailInput);
 
     const passwordInput = document.createElement('input');
     passwordInput.type = 'password';
     passwordInput.placeholder = 'password';
     passwordInput.name = 'password';
-    loginForm.appendChild(passwordInput);
+    passwordInput.id = 'password_register';
+    registerForm.appendChild(passwordInput);
 
-    const loginButton = document.createElement('button');
-    loginButton.id = 'btnLogin';
-    loginButton.textContent = 'Login';
-    loginButton.onclick = () => {
-      Authenticator.login();
-      (Router as any).navigate('/home');
+    const registerButton = document.createElement('button');
+    registerButton.id = 'btnRegister';
+    registerButton.textContent = 'create';
+    registerButton.onclick = () => {
+      onclick = button.onClick;
     };
-    loginForm.appendChild(loginButton);
+    registerForm.appendChild(registerButton);
 
-    const loginMessage = document.createElement('p');
-    loginMessage.classList.add('message');
-    loginMessage.textContent = 'Not registered? ';
+    const registerMessage = document.createElement('p');
+    registerMessage.classList.add('message');
+    registerMessage.textContent = 'Already registered? ';
 
-    const signUpLink = document.createElement('a');
-    signUpLink.href = '/';
-    signUpLink.textContent = 'Create an account';
-    loginMessage.appendChild(signUpLink);
-    loginForm.appendChild(loginMessage);
+    const signInLink = document.createElement('a');
+    signInLink.href = '/';
+    signInLink.textContent = 'Sign In';
+    registerMessage.appendChild(signInLink);
+    registerForm.appendChild(registerMessage);
 
-    formContainer.appendChild(loginForm);
+    formContainer.appendChild(registerForm);
 
     // Error container
     const errorContainer = document.createElement('div');
@@ -120,7 +124,7 @@ class LoginComponent extends Component {
 
     elements.push(Elements.createHeader({
       size: 2,
-      textContent: 'OF',
+      textContent: 'OR USE',
       className: 'text-center',
     }));
 
@@ -148,4 +152,4 @@ class LoginComponent extends Component {
   }
 }
 
-export default LoginComponent;
+export default RegisterComponent;

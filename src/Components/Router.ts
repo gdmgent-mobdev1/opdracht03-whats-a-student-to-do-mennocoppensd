@@ -4,7 +4,21 @@
 
 import Navigo from 'navigo';
 
-const Router = {
+// const Router = {
+//   router: null,
+//   getRouter() {
+//     if (!this.router) {
+//       const rootUrl = `${window.location.protocol}//${window.location.host}`;
+//       this.router = new Navigo(rootUrl, false);
+//     }
+//     return this.router;
+//   },
+// };
+
+const Router: {
+  router: Navigo | null,
+  getRouter: () => Navigo
+} = {
   router: null,
   getRouter() {
     if (!this.router) {

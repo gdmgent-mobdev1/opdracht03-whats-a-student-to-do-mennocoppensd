@@ -1,0 +1,161 @@
+/**
+ * Edit Project Page Component
+ */
+
+import Component from '../../lib/Component';
+import Elements from '../../lib/Elements';
+import Router from '../Router';
+import Project from './Project';
+import Exception from '../Exceptions/Exception';
+import Authenticator from '../Auth/AuthenticateUser';
+import Projects from './Projects';
+
+class EditProjectComponent extends Component {
+  constructor() {
+    super({
+      name: 'editProject',
+      model: {
+        title: 'Project',
+        linkPicture: '<i class="fas fa-times fa-3x"></i>',
+        linkOnclick: () => {
+          if (this.props.data.id === ':id') {
+            Router.getRouter().navigate('/home');
+          } else {
+            Router.getRouter().navigate(`/project-detail/${this.props.data.id}`);
+          }
+        },
+        forms: [
+          {
+            type: 'text',
+            name: 'Name',
+            placeholder: 'Name',
+            value: '',
+          },
+          {
+            type: 'textarea',
+            name: 'Description',
+            placeholder: 'Description',
+            value: '',
+          },
+        ],
+        button: {
+          textContent: 'Save',
+          onClick: async () => {
+            try {
+              const organiser = Authenticator.getUid();
+              const formData = new FormData(<HTMLFormElement> (document.querySelector('form')));
+              const title = formData.get('naam');
+              const description = formData.get('description');
+
+              formData.forEach((value) => {
+                if (!value) throw new Exception('Fill in all fields');
+              });
+
+              const project = new Project({
+                organiser,
+                title,
+                description,
+              });
+
+              if (this.props.data.id === ':id') {
+                const projectData = await project.createNewProject();
+                Router.getRouter().navigate(`/project-detail/${projectData.id}`);
+              } else {
+                await project.editProject(this.props.data.id);
+                Router.getRouter().navigate(`/project-detail/${this.props.data.id}`);
+              }
+            } catch (e) {
+              console.log(e.message);
+            }
+          },
+        },
+      },
+      routerPath: '/project-edit/:id',
+      navigation: false,
+    });
+  }
+
+  async loadProject(id: string) {
+    if (!(id === ':id')) {
+      const project = await Projects.getById(id);
+      this.model.forms = [
+        {
+          type: 'text',
+          name: 'Name',
+          placeholder: 'Name',
+          value: project?.title,
+        },
+        {
+          type: 'textarea',
+          name: 'Description',
+          placeholder: 'Description',
+          value: project?.description,
+        },
+      ];
+    }
+  }
+
+  async renderAsync() {
+    const projectId = this.props.data.id;
+    await this.loadProject(projectId);
+    const {
+      title, forms, button, linkPicture, linkOnclick,
+    } = this.model;
+    const elements = [];
+    const formElements:any[] = [];
+
+    this.clearComponentContainer();
+
+    elements.push(Elements.createClickableContainer({
+      className: 'text-right',
+      innerHTML: linkPicture,
+      onClick: linkOnclick,
+    }));
+
+    elements.push(Elements.createHeader({
+      size: 1,
+      textContent: title,
+      className: 'text-center',
+    }));
+
+    forms.forEach((form:any) => {
+      formElements.push(Elements.createHeader({
+        size: 3,
+        textContent: form.name,
+      }));
+      if (form.type === 'textarea') {
+        formElements.push(Elements.createTextarea({
+          value: form.value,
+          innerHTML: form.value,
+          placeholder: form.placeholder,
+          name: form.name.toLowerCase(),
+          rows: 5,
+        }));
+      } else {
+        formElements.push(Elements.createFormElement({
+          type: form.type,
+          value: form.value,
+          placeholder: form.name.toLowerCase(),
+          name: form.name.toLowerCase(),
+        }));
+      }
+    });
+
+    elements.push(Elements.createForm({
+      children: formElements,
+    }));
+
+    elements.push(Elements.createErrorContainer({}));
+
+    elements.push(Elements.createButton({
+      textContent: button.textContent,
+      onClick: button.onClick,
+    }));
+
+    elements.forEach((element) => this.componentContainer.appendChild(element));
+
+    return this.componentContainer;
+  }
+}
+
+export default EditProjectComponent;

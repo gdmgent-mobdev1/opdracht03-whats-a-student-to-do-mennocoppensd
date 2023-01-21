@@ -1,13 +1,15 @@
+/* eslint-disable max-len */
+/* eslint-disable no-console */
+/* eslint-disable no-alert */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * AuthenticateUser
  */
 
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, User } from 'firebase/auth';
 import Exception from '../Exceptions/Exception';
 import * as firebase from '../firebase';
-import { auth } from '../firebase';
 // eslint-disable-next-line import/no-cycle
-import Project from '../Project/Project';
 // eslint-disable-next-line import/no-cycle
 import Projects from '../Project/Projects';
 
@@ -20,12 +22,13 @@ class AuthenticateUser {
   }
 
   //  Get uid of current user
-  static getUid(): string {
-    return this.getCurrentUser().uid;
+  static getUid(): string | undefined {
+    const user = this.getCurrentUser();
+    return user?.uid;
   }
 
   // display error
-  static showError({ error }: { error: unknown; }) {
+  static showError({ error }: { error: unknown; } | any) {
     if (!error) return;
     const exception = new Exception(error);
     exception.TypeError();
@@ -35,7 +38,7 @@ class AuthenticateUser {
     try {
       const querySnapshot = await firebase.getDocs(firebase.collection(firebase.fireStoreDb, 'users'));
       const users:any[] = [];
-      querySnapshot.forEach((document: { id: string | number; data: () => any; }) => {
+      querySnapshot.forEach((document: { id: string | number | any ; data: () => any; }) => {
         users[document.id] = document.data();
       });
       return users;
@@ -91,46 +94,6 @@ class AuthenticateUser {
         alert(`An error has occurred, the error is ${errorMessage}!`);
       });
   }
-  // // Register a new account
-  // static async registerNewAccount() {
-  //   const formData = new FormData((<HTMLFormElement> document.querySelector('form')));
-  //   const email = formData.get('email');
-  //   const password = formData.get('password');
-
-  //   // if (password.length < 6) {
-  //   //   return AuthenticateUser.showError({ error: { message: 'Password must be at least 6 characters long' } });
-  //   // }
-
-  //   // if (password.length > 20) {
-  //   //   return AuthenticateUser.showError({ error: { message: 'Password must be less than 20 characters long' } });
-  //   // }
-
-  //   try {
-  //     console.log('Creating user with email: ' + email.toString());
-  //     await firebase.createUserWithEmailAndPassword(auth, email.toString(), password.toString());
-  //     console.log('Logging in user with email: ' + email.toString());
-  //     await firebase.signInWithEmailAndPassword(auth, email, password);
-
-  //     Router.getRouter().navigate('/edit-profile');
-  //   } catch (e) {
-  //     this.showError(e);
-  //   }
-  // }
-
-  //  Log in to an existing account
-
-  // static async login() {
-  //   const formData = new FormData((<HTMLFormElement>document.querySelector('form')));
-  //   const email = formData.get('email');
-  //   const password = formData.get('password');
-
-  //   try {
-  //     await firebase.signInWithEmailAndPassword(firebase.auth, email, password);
-  //     Router.getRouter().navigate('/home');
-  //   } catch (e) {
-  //     AuthenticateUser.showError({ error: e });
-  //   }
-  // }
 
   //  Log in to an account via Google
   static async loginGoogle() {
@@ -138,7 +101,7 @@ class AuthenticateUser {
 
     try {
       await firebase.signInWithPopup(firebase.auth, provider);
-      const docRef = firebase.doc(firebase.fireStoreDb, 'users', AuthenticateUser.getUid());
+      const docRef = firebase.doc(firebase.fireStoreDb, 'users', AuthenticateUser.getUid() as string);
       const docSnap = await firebase.getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -182,7 +145,7 @@ class AuthenticateUser {
     try {
       const provider = new firebase.TwitterAuthProvider();
       await firebase.signInWithPopup(firebase.auth, provider);
-      const docRef = firebase.doc(firebase.fireStoreDb, 'users', AuthenticateUser.getUid());
+      const docRef = firebase.doc(firebase.fireStoreDb, 'users', AuthenticateUser.getUid() as string);
       const docSnap = await firebase.getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -210,7 +173,7 @@ class AuthenticateUser {
 
   //  Deletes the user
   static async deleteUser() {
-    firebase.deleteUser(); {
+    firebase.deleteUser(this.getCurrentUser() as User); {
       const uId = this.getUid();
 
       // Deletes all the projects the user is related to
@@ -224,15 +187,19 @@ class AuthenticateUser {
         }
       });
       // Deletes the user from the firestore
-      await firebase.deleteDoc(firebase.doc(firebase.fireStoreDb, 'users', uId));
+      await firebase.deleteDoc(firebase.doc(firebase.fireStoreDb, 'users', uId as string));
 
       //  Deletes the user itself from the firestore
-      firebase.deleteUser(this.getCurrentUser()).then(() => {
+      firebase.deleteUser(this.getCurrentUser() as User).then(() => {
         Router.getRouter().navigate('/');
       }).catch((e) => {
         this.showError({ error: e });
       });
     }
+  }
+
+  static handleDelete(_project: { id: string; organiser: any; title: any; description: any; deadline: any; routerPath: string; joined: any; }, _uId: string | undefined) {
+    throw new Error('Method not implemented.');
   }
 }
 export default AuthenticateUser;

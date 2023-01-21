@@ -2,7 +2,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { root, State } from '../../main';
 import { dragstartHandler } from '../../lib/dragAndDrop';
-import { deleteCardFromFirebase, addCommentToFirebase } from '../firebase';
+import { deleteCardFromFirebase } from '../firebase';
+// import { addCommentToFirebase } from '../firebase';
 import Comment from './Comment';
 import editableText from './EditableText';
 import TodoList from './TodoList';
@@ -61,6 +62,7 @@ class Card extends Component {
     this.todoList = todoList;
     this.state = {
       description: 'Click to write a description...',
+      deadline: new Date().toISOString().slice(0, 10),
       comments: [],
       ...state,
       id,
@@ -133,7 +135,7 @@ class Card extends Component {
                     </div>
                 `;
     this.componentContainer.appendChild(this.leaderboardContainer);
-    import('../timer.ts').then(() => {
+    import('../timer.js' as any).then(() => {
       // Run the timer functionality here
     });
 
@@ -162,7 +164,7 @@ class Card extends Component {
     this.commentsButton.addEventListener('click', () => {
       if (this.commentsInput?.value !== '' && (this.commentsInput != null)) {
         this.state.comments?.push(this.commentsInput.value);
-        addCommentToFirebase(this.parentId!, this.id, this.commentsInput.value);
+        // addCommentToFirebase(this.parentId!, this.id, this.commentsInput.value);
         this.renderComments();
         this.commentsInput.value = '';
       }

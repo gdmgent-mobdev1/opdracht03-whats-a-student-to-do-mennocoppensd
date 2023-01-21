@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable class-methods-use-this */
 /**
  * The Component parent
@@ -7,13 +9,15 @@ import { DocumentData } from '@firebase/firestore';
 import Elements from './Elements';
 import { fireStoreDb, doc, getDoc } from '../Components/firebase';
 import Authenticator from '../Components/Auth/AuthenticateUser';
-import Invite from '../Components/Invite/Invite';
 
 /**
  * Component class, it's a generic class to hold all common functionality
  * of all classes that inherits from it.
  */
 class Component {
+  renderAsync() {
+    throw new Error('Method not implemented.');
+  }
   // Properties of the class
 
   public name: any;
@@ -57,7 +61,7 @@ class Component {
     this.navigation = navigation;
   }
 
-  // Credits: code snippet (line 61-85) from Bjorn's code
+  // Credits: code snippet (line 61-83) from Bjorn's code
 
   createComponentContainer() {
     return Elements.createContainer({
@@ -74,18 +78,7 @@ class Component {
   async getUserData() {
     const uId = Authenticator.getUid();
 
-    const docRef = doc(fireStoreDb, 'users', uId);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      this.changeModel(docSnap.data());
-    } else { console.log('no user'); }
-  }
-
-  async getInviteData() {
-    const inviteId = await Invite.getInvites();
-    const docRef = doc(fireStoreDb, 'invites', inviteId);
-
+    const docRef = doc(fireStoreDb, 'users', uId as string);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {

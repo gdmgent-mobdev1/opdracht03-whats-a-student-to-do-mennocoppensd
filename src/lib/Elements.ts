@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 // /**
 //  * My Elements Helper
 //  */
@@ -58,7 +59,7 @@ interface IFormOptions {
   onSubmit?: Function;
 }
 interface IFormElementOptions {
-  type: string;
+  elType: string;
   name?: string;
   id?: string;
   className?: string;
@@ -97,7 +98,6 @@ interface IFooterOptions {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const TARGET_BLANK = '_blank';
 const TARGET_SELF = '_self';
 const VALID_HEADER_SIZES = [1, 2, 3, 4, 5, 6];
 
@@ -114,7 +114,7 @@ class Elements {
   }
 
   createButton({
-    textContent = '', onClick = null, className = '', id = '', innerHTML = '', disabled = false,
+    textContent = '', onClick, className = '', id = '', innerHTML = '', disabled = false,
   }: IButtonOptions) {
     const button = document.createElement('button') as HTMLButtonElement;
     button.textContent = textContent;
@@ -123,7 +123,7 @@ class Elements {
     if (innerHTML) button.innerHTML = innerHTML;
     if (disabled) button.disabled = disabled;
     if (onClick) {
-      button.addEventListener('click', onClick);
+      button.addEventListener('click', onClick as EventListener);
     }
     return button;
   }
@@ -208,7 +208,7 @@ class Elements {
   }
 
   createClickableContainer({
-    className = '', id = '', innerHTML = '', children = [], onClick = null,
+    className = '', id = '', innerHTML = '', children = [], onClick,
   }: IClickableContainerOptions) {
     const container = document.createElement('div');
     if (id) container.setAttribute('id', id);
@@ -222,13 +222,13 @@ class Elements {
       });
     }
     if (onClick) {
-      container.addEventListener('click', onClick);
+      container.addEventListener('click', onClick as EventListener);
     }
     return container;
   }
 
   createForm({
-    id = '', className = '', method = 'post', action = '', children = [], onSubmit = null,
+    id = '', className = '', method = 'post', action = '', children = [], onSubmit,
   }: IFormOptions) {
     const form = document.createElement('form');
     if (id) form.setAttribute('id', id);
@@ -243,36 +243,37 @@ class Elements {
       });
     }
     if (onSubmit) {
-      form.addEventListener('submit', onSubmit);
+      form.addEventListener('submit', onSubmit as EventListener);
     }
     return form;
   }
 
   createFormElement({
-    type, name, id, className, placeholder, value, required,
+    elType, name, id, className, placeholder, value, required,
   }: IFormElementOptions) {
-    const element = document.createElement(type === 'textarea' ? type : 'input');
+    const element = document.createElement(elType === 'textarea' ? elType : 'input');
     if (name) element.name = name;
     if (id) element.setAttribute('id', id);
-    element.className = className;
-    if (type === 'text' || type === 'password' || type === 'email' || type === 'date') {
-      element.type = type;
-      element.placeholder = placeholder;
-      element.value = value;
+    element.className = className || '';
+    if (elType === 'text' || elType === 'password' || elType === 'email' || elType === 'date') {
+      element.setAttribute('type', elType || 'text' || 'password' || 'email');
+      element.placeholder = placeholder || '';
+      element.value = value || 'date' ? new Date().toISOString().slice(0, 10) : '';
     }
     if (required) element.required = required;
     return element;
   }
 
-  createTextarea({ rows, cols, ...rest }: ITextareaOptions) {
-    const textarea = this.createFormElement({ type: 'textarea', ...rest });
-    textarea.rows = rows;
-    textarea.cols = cols;
+  createTextarea({
+    elType, rows, cols, ...rest
+  }: ITextareaOptions) {
+    const textarea = this.createFormElement({ elType: 'textarea', ...rest });
+
     return textarea;
   }
 
-  createCheckbox({ label, ...rest }: ICheckboxOptions) {
-    const checkbox = this.createFormElement({ type: 'checkbox', ...rest });
+  createCheckbox({ label, elType, ...rest }: ICheckboxOptions) {
+    const checkbox = this.createFormElement({ elType: 'checkbox', ...rest });
     const checkboxLabel = document.createElement('label');
     checkboxLabel.appendChild(checkbox);
     checkboxLabel.appendChild(document.createTextNode(label));
@@ -280,14 +281,14 @@ class Elements {
   }
 
   createImageContainer({
-    alt, className = '', id = '', onClick = null,
+    alt, className = '', id = '', onClick,
   }: ImageContainerOptions) {
     const img = new Image();
     img.alt = alt;
     if (className) img.classList.add(className);
     if (id) img.setAttribute('id', id);
     if (onClick) {
-      img.addEventListener('click', onClick);
+      img.addEventListener('click', onClick as EventListener);
     }
     return img;
   }
@@ -309,7 +310,7 @@ class Elements {
   }
 
   createFooter({
-    className = '', id = '', children = [], onClick = null,
+    className = '', id = '', children = [], onClick,
   }: IFooterOptions) {
     const footer = document.createElement('footer');
     if (id) footer.setAttribute('id', id);
@@ -322,7 +323,7 @@ class Elements {
       });
     }
     if (onClick) {
-      footer.addEventListener('click', onClick);
+      footer.addEventListener('click', onClick as EventListener);
     }
     return footer;
   }

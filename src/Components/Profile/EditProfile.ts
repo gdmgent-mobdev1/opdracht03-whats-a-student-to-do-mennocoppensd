@@ -60,14 +60,14 @@ class EditProfileComponent extends Component {
 
               //  Create a new User instance
               const user = new User({
-                surname,
-                name,
-                username,
-                telephoneNumber,
-                imageURL,
+                surname: surname as string,
+                name: name as string,
+                username: username as string,
+                telephoneNumber: telephoneNumber as string,
+                imageURL: imageURL as string,
               });
               user.writeUserData();
-            } catch (e) {
+            } catch (e : Exception | any) {
               e.showError('Please fill in all fields. (image is not required)');
             }
           },
@@ -120,7 +120,7 @@ class EditProfileComponent extends Component {
         textContent: form.name,
       }),
       Elements.createFormElement({
-        type: 'text',
+        elType: 'text',
         placeholder: form.name,
         name: form.name.toLowerCase(),
         value: form.value,

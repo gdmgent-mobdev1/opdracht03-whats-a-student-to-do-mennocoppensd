@@ -1,3 +1,5 @@
+/* eslint-disable no-empty */
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * My Firebase Config
@@ -63,13 +65,7 @@ const addTodoFirebase = async (text: string, todoId: string) => {
 const updateTodoFirebase = async (todoListId: string, id: string, attribute: string, value: string) => {
   console.log(todoListId, id, attribute, value);
   if (attribute === 'title') {
-    const answer = await firestore.setDoc(firestore.doc(fireStoreDb, `lists/${todoListId}/cards`, id), {
-      title: value,
-    }, { merge: true });
   } else {
-    const answer = await firestore.setDoc(firestore.doc(fireStoreDb, `lists/${todoListId}/cards`, id), {
-      description: value,
-    }, { merge: true });
   }
 };
 
@@ -80,15 +76,15 @@ const deleteTodoListFirebase = async (id: string) => {
 const deleteCardFromFirebase = async (todoListId: string, id: string) => {
   await firestore.deleteDoc(firestore.doc(fireStoreDb, `lists/${todoListId}/cards`, id));
 };
-const addCommentToFirebase = async (todoListId: string, id: string, comment: string) => {
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const firestore = firebase.firestore();
-  const cardsRef = firestore.collection('lists').doc(todoListId).collection('cards').doc(id);
+// const addCommentToFirebase = async (todoListId: string, id: string, comment: string) => {
+//   // eslint-disable-next-line @typescript-eslint/no-shadow
+//   const firestore = firebase.firestore();
+//   const cardsRef = firestore.collection('lists').doc(todoListId).collection('cards').doc(id);
 
-  cardsRef.update({
-    comments: firebase.firestore.FieldValue.arrayUnion(comment),
-  });
-};
+//   cardsRef.update({
+//     comments: firebase.firestore.FieldValue.arrayUnion(comment),
+//   });
+// };
 
 export {
   //  Firebase
@@ -106,7 +102,7 @@ export {
   updateTodoFirebase,
   deleteTodoListFirebase,
   deleteCardFromFirebase,
-  addCommentToFirebase,
+  // addCommentToFirebase,
   query,
   orderBy,
   onSnapshot,

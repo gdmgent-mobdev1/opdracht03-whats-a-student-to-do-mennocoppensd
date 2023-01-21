@@ -20,7 +20,8 @@ class User {
   imageURL: string;
 
   points: number;
-  id: string;
+
+  id: string | null = null;
 
   constructor({
     name = '',
@@ -42,7 +43,7 @@ class User {
     const uId = Authenticator.getUid();
     //  Creates userdata in the firestore
 
-    await setDoc(doc(fireStoreDb, 'users', uId), {
+    await setDoc(doc(fireStoreDb, 'users', uId as string), {
       name: this.name,
       surname: this.surname,
       username: this.username,

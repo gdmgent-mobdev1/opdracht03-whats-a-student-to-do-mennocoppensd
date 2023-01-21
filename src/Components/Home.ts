@@ -1,3 +1,7 @@
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable import/extensions */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable import/no-duplicates */
 import { DocumentData } from '@firebase/firestore';
 import Component from '../lib/Component';
 import Elements from '../lib/Elements';
@@ -6,9 +10,6 @@ import Authenticator from './Auth/AuthenticateUser';
 import ProjectContainerComponent from './Project/ProjectContainer';
 import Projects from './Project/Projects';
 
-import InviteService from './Invite/Invite';
-import Invite from './Invite/Invite';
-import InviteContainerComponent from './Invite/InviteContainer';
 import Router from './Router';
 
 // Home component that acts as a dashboard for logged in users
@@ -39,7 +40,7 @@ class HomeComponent extends Component {
     // await this.getInviteData();
 
     // Destructure the title and userData properties from the model
-    const { title, userData } = this.model;
+    const { title } = this.model;
     // Fetch the user data
 
     const projects = await Projects.getAll();
@@ -88,7 +89,7 @@ class HomeComponent extends Component {
                     </div>
                 `;
     this.componentContainer.appendChild(leaderboardContainer);
-    import('./timer.ts').then(() => {
+    import('./timer.js' as any).then(() => {
       // Run the timer functionality here
     });
 
@@ -117,38 +118,6 @@ class HomeComponent extends Component {
       }
     });
 
-    const invite = {
-      sender: 'user1',
-      recipient: 'user2',
-      project: 'project1',
-      status: 'pending',
-    };
-
-    // Create a new invite container component
-    // eslint-disable-next-line max-len, @typescript-eslint/no-shadow
-    // invites.forEach((invite: { recipient: string; id: any; sender: any; project: any; status: any; }) => {
-    //   if (invite.recipient === userId) {
-    //     const InviteContainer = new InviteContainerComponent({
-    //       id: invite.id,
-    //       sender: invite.sender,
-    //       project: invite.project,
-    //       status: invite.status, // pending, accepted, declined
-    //       routerPath: 'invite-detail',
-    //     });
-    //     elements.push(InviteContainer.render());
-    //   }
-    // });
-
-    // InviteService.createInvite(invite);
-
-    // const inviteSnapshot = await InviteService.getInvite('inviteId');
-    // const inviteData = inviteSnapshot.data();
-    // console.log(inviteData);
-
-    // InviteService.updateInvite('inviteId', { status: 'accepted' });
-    // InviteService.deleteInvite('inviteId');
-
-    // Add all the elements to the component container
     elements.forEach((element) => this.componentContainer.appendChild(element));
 
     return this.componentContainer;

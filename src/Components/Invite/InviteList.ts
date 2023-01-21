@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Invite from './Invite';
 
 class InviteList {

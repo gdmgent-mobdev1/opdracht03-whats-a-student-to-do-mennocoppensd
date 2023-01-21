@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * Edit Project Page Component
  */
@@ -80,8 +81,8 @@ class EditProjectComponent extends Component {
                 await project.editProject(this.props.data.id);
                 Router.getRouter().navigate(`/project-detail/${this.props.data.id}`);
               }
-            } catch (e) {
-              console.log(e.message);
+            } catch (e : unknown) {
+              console.log('Failed to create project');
             }
           },
         },
@@ -150,21 +151,22 @@ class EditProjectComponent extends Component {
       if (form.type === 'textarea') {
         formElements.push(Elements.createTextarea({
           value: form.value,
-          innerHTML: form.value,
+          cols: 5,
+          elType: form.type,
           placeholder: form.placeholder,
           name: form.name.toLowerCase(),
           rows: 5,
         }));
       } else if (form.type === 'text') {
         formElements.push(Elements.createFormElement({
-          type: form.type,
+          elType: form.type,
           value: form.value,
           placeholder: form.name.toLowerCase(),
           name: form.name.toLowerCase(),
         }));
       } else {
         formElements.push(Elements.createFormElement({
-          type: form.type,
+          elType: form.type,
           value: form.value,
           name: form.name,
           className: form.className,

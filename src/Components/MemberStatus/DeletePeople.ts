@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { DocumentData } from '@firebase/firestore-types';
 import Component from '../../lib/Component';
 import Elements from '../../lib/Elements';
@@ -25,7 +26,7 @@ class DeletePeopleComponent extends Component {
   // Render the add users page
 
   async renderAsync() {
-    const { title, userData } = this.model;
+    const { title } = this.model;
 
     const elements = [
       Elements.createHeader({

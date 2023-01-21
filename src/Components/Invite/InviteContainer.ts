@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable no-sequences */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Component from '../../lib/Component';
 import Elements from '../../lib/Elements';
 
 class InviteContainerComponent extends Component {
-  declare componentContainer: any;
-
   id: any;
 
   sender: any;
@@ -12,7 +13,7 @@ class InviteContainerComponent extends Component {
 
   status: any;
 
-  routerPath: any;
+  declare routerPath: any;
 
   projectTitle: any;
 
@@ -20,27 +21,28 @@ class InviteContainerComponent extends Component {
 
   declineInvite: any;
 
-  constructor({
-    id, sender, project, status, routerPath, projectTitle, acceptInvite, declineInvite,
-  }) {
+  constructor() {
     super({
       name: 'inviteContainer',
-      props: {
-        id,
-        sender,
-        project,
-        status,
-        routerPath,
-        projectTitle,
-        acceptInvite,
-        declineInvite,
-      },
+      model: {},
+      routerPath: '/invite/:id',
+      navigation: true,
     });
+    this.id,
+    this.sender,
+    this.project,
+    this.status,
+    this.routerPath,
+    this.projectTitle,
+    this.acceptInvite,
+    this.declineInvite;
   }
 
   render() {
     const {
-      id, projectTitle, acceptInvite, declineInvite,
+      projectTitle,
+      acceptInvite,
+      declineInvite,
     } = this.props;
     const elements = [];
     const textElements = [];

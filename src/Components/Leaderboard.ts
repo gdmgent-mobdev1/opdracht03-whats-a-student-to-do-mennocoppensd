@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { DocumentData } from '@firebase/firestore-types';
 import Component from '../lib/Component';
 import Elements from '../lib/Elements';
@@ -48,7 +50,7 @@ class LeaderboardComponent extends Component {
   // Render the leaderboard
 
   async renderAsync() {
-    const { title, userData } = this.model;
+    const { title } = this.model;
 
     const elements = [
       Elements.createHeader({

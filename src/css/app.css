@@ -219,7 +219,6 @@ button {
   }
 
   .projectDetail-container h5 {
-    background-color: #191c2973;
     padding: 1em;
     border-radius: 8px;
     font-size: 1em; ;
@@ -500,6 +499,10 @@ button.footer:hover, footer:hover{
     color: #fff;
     border-radius: 8px;
 } 
+
+.editProject-container {
+  height: 80vh;
+}
 
 .imageContainer img {
   border-radius: 8px;

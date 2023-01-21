@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import Component from '../../lib/Component';
 import TodoListComponent from './TodoList';
 

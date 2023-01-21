@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as firebase from '../firebase';
 
 class InviteService {
@@ -10,12 +11,12 @@ class InviteService {
       const querySnapshot = await firebase.getDocs(firebase.collection(firebase.fireStoreDb, 'invites'));
       const invites:any[] = [];
       querySnapshot.forEach((document: { id: string | number; data: () => any; }) => {
-        invites[document.id] = document.data();
+        invites[document.id as any] = document.data();
       });
       return invites;
     } catch (error) {
       console.error(error);
-      throw new Error(error);
+      throw new Error(error as any);
     }
   }
 

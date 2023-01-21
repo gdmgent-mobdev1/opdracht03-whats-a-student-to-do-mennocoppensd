@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * Project Detail Page
  */
@@ -8,8 +9,6 @@ import Router from '../Router';
 import Authenticator from '../Auth/AuthenticateUser';
 
 import Projects from './Projects';
-import Project from './Project';
-import UserTag from './UserTag';
 
 class ProjectDetailComponent extends Component {
   declare componentContainer: any;
@@ -39,38 +38,6 @@ class ProjectDetailComponent extends Component {
             onClick: () => Router.getRouter()?.navigate(`/add-users/${this.props.data.id}`),
           },
         ],
-        joinRejectButtons: [
-          {
-            innerHTML: '<i class="fas fa-times fa-2x"></i>',
-            className: 'danger',
-            onClick: async () => {
-              const projectData = await Projects.createProjectData(this.props.data.id);
-              const project = new Project(projectData);
-              await project.rejectProject(this.props.data.id);
-              Router.getRouter().navigate('/home');
-            },
-          },
-          {
-            innerHTML: '<i class="fas fa-check fa-2x"></i>',
-            className: 'success',
-            onClick: async () => {
-              const projectData = await Projects.createProjectData(this.props.data.id);
-              const project = new Project(projectData);
-              await project.joinProject(this.props.data.id);
-              Router.getRouter().navigate('/home');
-            },
-          },
-        ],
-        leaveButton: {
-          textContent: 'Leave project',
-          className: 'danger',
-          onClick: async () => {
-            const projectData = await Projects.createProjectData(this.props.data.id);
-            const project = new Project(projectData);
-            await project.rejectProject(this.props.data.id);
-            Router.getRouter().navigate('/home');
-          },
-        },
         project: {},
       },
       routerPath: '/project-detail/:id',
@@ -105,10 +72,8 @@ class ProjectDetailComponent extends Component {
 
     const {
       editBtn, goToSubtasksButton, selectUsersbuttons, project,
-      joinRejectButtons, leaveButton,
     } = this.model;
     const elements:any[] = [];
-    const joined:any[] = [];
     const buttonElements:any[] = [];
 
     this.clearComponentContainer();
@@ -125,16 +90,11 @@ class ProjectDetailComponent extends Component {
       size: 1,
       textContent: project.title,
     }));
-    // FIXME: Confused jan noises here
-    // elements.push(Elements.createParagraph({
-    //   textContent: `Deadline: ${users[project.deadline]}`,
-    // }));
 
     elements.push(Elements.createButton({
       textContent: 'Go to Subtasks',
       className: goToSubtasksButton.className,
       onClick: goToSubtasksButton.onClick,
-      // Router.getRouter().navigate('/lists'),
     }));
 
     elements.push(Elements.createParagraph({
@@ -146,22 +106,9 @@ class ProjectDetailComponent extends Component {
       textContent: project.description,
     }));
 
-    // const foundJoined = project.joined.find((user:any) => user === userId);
-    // const foundInvited = project.invited.find((user:any) => user === userId);
-    // const foundRejected = project.rejected.find((user:any) => user === userId);
-
     elements.push(Elements.createHeader({
       size: 5,
       textContent: 'Group members:',
-    }));
-
-    this.model.users.forEach((membs:any) => {
-      const usertag = new UserTag(membs.username, membs.imageURL);
-      joined.push(usertag.render());
-    });
-    elements.push(Elements.createContainer({
-      className: 'buttonLayout',
-      children: joined,
     }));
 
     if (userId === project.organiser) {
@@ -195,31 +142,6 @@ class ProjectDetailComponent extends Component {
           await Projects.deleteProject(projectId);
           Router.getRouter().navigate('/home');
         },
-      }));
-    }
-
-    const foundInvite = project.invited.find((user:any) => user === userId);
-    if (foundInvite) {
-      const buttons:any[] = [];
-      joinRejectButtons.forEach((button:any) => {
-        buttons.push(Elements.createButton({
-          innerHTML: button.innerHTML,
-          className: button.className,
-          onClick: button.onClick,
-        }));
-      });
-      elements.push(Elements.createContainer({
-        className: 'buttonLayout',
-        children: buttons,
-      }));
-    }
-
-    const foundJoin = project.joined.find((user:any) => user === userId);
-    if (foundJoin) {
-      elements.push(Elements.createButton({
-        textContent: leaveButton.textContent,
-        className: leaveButton.className,
-        onClick: leaveButton.onClick,
       }));
     }
 

@@ -32,7 +32,7 @@ interface State {
   id: string,
   title: string
   description: string
-  deadline: Date,
+  deadline: string,
   comments?: string[]
 }
 

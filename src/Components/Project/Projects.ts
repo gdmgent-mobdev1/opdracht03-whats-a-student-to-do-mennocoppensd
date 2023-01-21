@@ -65,6 +65,22 @@ const Projects = {
     };
     return projectData;
   },
+
+  getMembers: async (id: string) => {
+    const projectInfo = await getDoc(doc(fireStoreDb, 'projects', id));
+    if (!projectInfo.exists()) {
+      throw new Error('Could not find project info');
+    }
+    const joinedUsersIds = projectInfo.data().joined;
+
+    const users = [];
+    for (const uid of joinedUsersIds) {
+      const user = await getDoc(doc(fireStoreDb, 'users', uid));
+      if (!user.exists()) return;
+      users.push({ id: uid, ...user.data() });
+    }
+    return users;
+  },
 };
 
 export default Projects;

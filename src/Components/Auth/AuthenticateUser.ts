@@ -41,7 +41,7 @@ class AuthenticateUser {
       return users;
     } catch (error) {
       console.error(error);
-      throw new Error(error);
+      return [];
     }
   }
 

@@ -1,6 +1,8 @@
 import { DocumentData } from '@firebase/firestore-types';
 import Component from '../../lib/Component';
 import Elements from '../../lib/Elements';
+import Router from '../Router';
+import { addUsersToProject, listAllUsers } from './store';
 
 class AddPeopleComponent extends Component {
   constructor() {
@@ -27,6 +29,11 @@ class AddPeopleComponent extends Component {
   async renderAsync() {
     const { title, userData } = this.model;
 
+    const users = await listAllUsers(this.props.data.projectId);
+
+    const addUsersListElem = document.createElement('form');
+    addUsersListElem.classList.add('add-users-list');
+
     const elements = [
       Elements.createHeader({
         size: 1,
@@ -42,36 +49,26 @@ class AddPeopleComponent extends Component {
         textContent: 'Add',
         className: 'add-users-button',
         id: 'add-users',
+        onClick: async () => {
+          const selUsers = $(addUsersListElem).serializeArray().map((v) => v.value);
+          await addUsersToProject(this.props.data.projectId, selUsers);
+          Router.getRouter()?.navigate(`/project-detail/${this.props.data.projectId}`);
+        },
       }),
     ];
-    const addUsersList = document.createElement('div');
-    addUsersList.classList.add('add-users-list');
 
-    addUsersList.innerHTML = `
-    
-<div class="row_lists">
-  <div class="col-sm-6 col-md-4 offset-md-2 list-standard">
-    <label class="checkbox">Menno123
-      <input type="checkbox">
-
-    </label>
-    <label class="checkbox">Sebas
-      <input type="checkbox">
-
-    </label>
-    <label class="checkbox">Jos
-      <input type="checkbox">
-
-    </label>
-    <label class="checkbox">Pascal
-      <input type="checkbox">
-    </label>
-  </div>
-</div>
-
-                `;
+    addUsersListElem.innerHTML = `    
+      <div class="row_lists">
+        <div class="col-sm-6 col-md-4 offset-md-2 list-standard">
+        ${users.map((u) => (`
+          <label class="checkbox">
+            ${u.username}
+            <input type="checkbox" name="add-user" value="${u.id}">
+          </label>`)).join('')}
+        </div>
+      </div>`;
     elements.forEach((element) => this.componentContainer.appendChild(element));
-    this.componentContainer.appendChild(addUsersList);
+    this.componentContainer.appendChild(addUsersListElem);
 
     return this.componentContainer;
   }

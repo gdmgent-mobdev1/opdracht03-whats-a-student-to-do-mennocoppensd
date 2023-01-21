@@ -218,6 +218,37 @@ button {
     margin: 0 auto;
   }
 
+  .projectDetail-container h5 {
+    background-color: #191c2973;
+    padding: 1em;
+    border-radius: 8px;
+    font-size: 1em; ;
+    color: #fff;
+    margin-top: 12px;
+    width: 240px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .projectDetail-container h4 {
+    margin: 20px;
+    font-weight: normal;
+  }
+  .projectDetail-container p {
+
+    font-weight: bold;
+  }
+
+  .buttonLayout p {
+    margin-top: 0.5em;
+    font-size: 0.8em;
+    background-color: #82777773;
+    padding: 1em;
+    font-weight: normal;
+    width: 200px;
+    border-radius: 0px;
+
+  }
+
   /*
   * Firebase 0Auth google, facebook, twitter button 
   */
@@ -729,8 +760,6 @@ button.footer:hover, footer:hover{
 /*
 * Pomodoro Timer 
 */
-
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@700&display=swap");
 
 *,
 *::before,

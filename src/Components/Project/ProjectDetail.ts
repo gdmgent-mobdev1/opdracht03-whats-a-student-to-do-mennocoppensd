@@ -9,14 +9,10 @@ import Authenticator from '../Auth/AuthenticateUser';
 
 import Projects from './Projects';
 import Project from './Project';
-// import UserTag from './UserTag';
+import UserTag from './UserTag';
 
 class ProjectDetailComponent extends Component {
   declare componentContainer: any;
-
-  declare props: any;
-
-  declare model: any;
 
   constructor() {
     super({
@@ -86,30 +82,38 @@ class ProjectDetailComponent extends Component {
     this.model.project = await Projects.getById(id);
   }
 
-  async loadUsers() {
-    const users = await Authenticator.getAllUsers();
-    this.model.users = users;
+  async loadUsers(id: string) {
+    const users = await Projects.getMembers(id);
+    if (!users) return;
+    this.model.users = [...users];
+  }
+
+  changeModel(data:any) {
+    if (data) {
+      this.model.data = {
+        ...data,
+      };
+    }
   }
 
   async renderAsync() {
+    await this.getUserData();
     const userId = Authenticator.getUid();
     const projectId = this.props.data.id;
     await this.loadProject(projectId);
-    await this.loadUsers();
+    await this.loadUsers(projectId);
 
     const {
       editBtn, goToSubtasksButton, selectUsersbuttons, project,
-      users, joinRejectButtons, leaveButton,
+      joinRejectButtons, leaveButton,
     } = this.model;
     const elements:any[] = [];
-    const invited:any[] = [];
     const joined:any[] = [];
-    const rejected:any[] = [];
     const buttonElements:any[] = [];
 
     this.clearComponentContainer();
 
-    if (userId === project.organiser) {
+    if (this.model.data?.uid === project.organiser) {
       elements.push(Elements.createClickableContainer({
         className: 'edit text-right',
         innerHTML: editBtn,
@@ -121,9 +125,10 @@ class ProjectDetailComponent extends Component {
       size: 1,
       textContent: project.title,
     }));
-    elements.push(Elements.createParagraph({
-      textContent: `Deadline: ${users[project.deadline]}`,
-    }));
+    // FIXME: Confused jan noises here
+    // elements.push(Elements.createParagraph({
+    //   textContent: `Deadline: ${users[project.deadline]}`,
+    // }));
 
     elements.push(Elements.createButton({
       textContent: 'Go to Subtasks',
@@ -133,7 +138,7 @@ class ProjectDetailComponent extends Component {
     }));
 
     elements.push(Elements.createParagraph({
-      textContent: `Organisator: ${users[project.organiser].username}`,
+      textContent: `Organisator: ${this.model.data.username}`,
     }));
 
     elements.push(Elements.createHeader({
@@ -150,32 +155,14 @@ class ProjectDetailComponent extends Component {
       textContent: 'Group members:',
     }));
 
-    project.invited.forEach((invite:any) => {
-      const usertag = new UserTag(users[invite].username, users[invite].imageURL);
-      invited.push(usertag.render());
-      elements.push(Elements.createContainer({
-        className: 'buttonLayout',
-        children: invited,
-      }));
-    });
-
-    project.joined.forEach((join:any) => {
-      const usertag = new UserTag(users[join].username, users[join].imageURL);
+    this.model.users.forEach((membs:any) => {
+      const usertag = new UserTag(membs.username, membs.imageURL);
       joined.push(usertag.render());
-      elements.push(Elements.createContainer({
-        className: 'buttonLayout',
-        children: joined,
-      }));
     });
-
-    project.rejected.forEach((reject:any) => {
-      const usertag = new UserTag(users[reject].username, users[reject].imageURL);
-      rejected.push(usertag.render());
-      elements.push(Elements.createContainer({
-        className: 'buttonLayout',
-        children: rejected,
-      }));
-    });
+    elements.push(Elements.createContainer({
+      className: 'buttonLayout',
+      children: joined,
+    }));
 
     if (userId === project.organiser) {
       selectUsersbuttons.forEach((button:any) => {

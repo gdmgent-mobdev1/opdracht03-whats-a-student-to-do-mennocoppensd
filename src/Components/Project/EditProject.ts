@@ -37,6 +37,14 @@ class EditProjectComponent extends Component {
             placeholder: 'Description',
             value: '',
           },
+          {
+            className: 'calendar',
+            id: 'calender',
+            name: 'deadline',
+            type: 'date',
+            min: '2023-01-01',
+            max: '2030-12-31',
+          },
         ],
         button: {
           textContent: 'Save',
@@ -44,8 +52,9 @@ class EditProjectComponent extends Component {
             try {
               const organiser = Authenticator.getUid();
               const formData = new FormData(<HTMLFormElement> (document.querySelector('form')));
-              const title = formData.get('naam');
+              const title = formData.get('name');
               const description = formData.get('description');
+              const deadline = formData.get('deadline');
 
               formData.forEach((value) => {
                 if (!value) throw new Exception('Fill in all fields');
@@ -55,6 +64,13 @@ class EditProjectComponent extends Component {
                 organiser,
                 title,
                 description,
+                deadline,
+                editedOn: new Date(),
+                createdOn: new Date(),
+                invited: [],
+                joined: [],
+                rejected: [],
+                subtasks: [],
               });
 
               if (this.props.data.id === ':id') {
@@ -90,6 +106,14 @@ class EditProjectComponent extends Component {
           name: 'Description',
           placeholder: 'Description',
           value: project?.description,
+        },
+        {
+          className: 'calendar',
+          name: 'Deadline',
+          id: 'calender',
+          type: 'date',
+          min: '2023-01-01',
+          max: '2030-12-31',
         },
       ];
     }
@@ -131,12 +155,20 @@ class EditProjectComponent extends Component {
           name: form.name.toLowerCase(),
           rows: 5,
         }));
-      } else {
+      } else if (form.type === 'text') {
         formElements.push(Elements.createFormElement({
           type: form.type,
           value: form.value,
           placeholder: form.name.toLowerCase(),
           name: form.name.toLowerCase(),
+        }));
+      } else {
+        formElements.push(Elements.createFormElement({
+          type: form.type,
+          value: form.value,
+          name: form.name,
+          className: form.className,
+          id: form.id,
         }));
       }
     });

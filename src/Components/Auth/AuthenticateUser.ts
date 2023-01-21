@@ -233,16 +233,6 @@ class AuthenticateUser {
         this.showError({ error: e });
       });
     }
-
-  //  static async handleDelete(
-  //   project:
-  //   { id: string; organiser: any; title: any; description: any; routerPath: string; joined: any; },
-  //   uId: string,
-  // ) {
-  //   const projectData = await Projects.createProjectData(project.id);
-  //   const project1 = new Project(projectData);
-  //   await project1.deleteUsers([uId], project.id);
-  // }
   }
 }
 export default AuthenticateUser;

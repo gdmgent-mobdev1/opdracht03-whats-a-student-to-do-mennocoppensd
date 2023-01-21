@@ -22,6 +22,7 @@ const Projects = {
         organiser: docu.data().organiser,
         title: docu.data().title,
         description: docu.data().description,
+        deadline: docu.data().deadline,
         routerPath: `/project/${docu.id}`,
         joined: docu.data().joined,
       }
@@ -60,6 +61,7 @@ const Projects = {
       organiser: data?.organiser,
       title: data?.title,
       description: data?.description,
+      deadline: data?.deadline,
     };
     return projectData;
   },

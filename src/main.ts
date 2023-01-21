@@ -1,5 +1,6 @@
 import './css/styles.css';
 
+// eslint-disable-next-line import/no-duplicates
 import { onAuthStateChanged } from './Components/firebase';
 import App from './App';
 
@@ -14,11 +15,15 @@ import {
   EditProjectComponent,
   ProjectDetailComponent,
   TodoListsComponent,
+  LeaderboardComponent,
+  AddPeopleComponent,
+  DeletePeopleComponent,
 
 } from './Components';
 
 import Router from './Components/Router';
 
+// eslint-disable-next-line import/no-duplicates
 import { auth } from './Components/firebase';
 
 const appContainer = document.querySelector<HTMLDivElement>('#app')!;
@@ -27,6 +32,7 @@ interface State {
   id: string,
   title: string
   description: string
+  deadline: Date,
   comments?: string[]
 }
 
@@ -49,35 +55,9 @@ app.addComponent(new ProfileComponent());
 app.addComponent(new EditProjectComponent());
 app.addComponent(new ProjectDetailComponent());
 app.addComponent(new TodoListsComponent());
-
-// Probeersel 1
-
-// app.addComponent(new TodoListComponent(
-//   this?.place,
-//   this?.input,
-//   this?.div,
-//   this?.h2,
-//   this?.button,
-//   this?.deleteButton,
-//   this?.todoListElement,
-//   this?.title,
-//   this?.id,
-//   this?.cardArray,
-// ));
-
-// Probeersel 2
-
-// app.addComponent(new TodoListComponent(
-// document.body, document.createElement('input'),
-// document.createElement('div'), this?.cardArray, document.createElement('button'),
-// document.createElement('button'), document.createElement('h2'),
-// document.createElement(this?.id)));
-
-// Probeersel 3
-
-// app.addComponent(new TodoListComponent(new HTMLElement(), '', '', [], new HTMLInputElement(),
-// new HTMLDivElement(), new HTMLHeadingElement(), new HTMLButtonElement(),
-// new HTMLButtonElement(), new HTMLDivElement()));
+app.addComponent(new LeaderboardComponent());
+app.addComponent(new AddPeopleComponent());
+app.addComponent(new DeletePeopleComponent());
 
 const onAuthStateChangedFunction = async (user:any) => {
   if (user) {

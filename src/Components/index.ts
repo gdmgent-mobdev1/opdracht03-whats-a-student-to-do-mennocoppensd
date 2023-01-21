@@ -9,6 +9,9 @@ import EditProjectComponent from './Project/EditProject';
 import ProjectDetailComponent from './Project/ProjectDetail';
 // eslint-disable-next-line import/no-cycle
 import TodoListsComponent from './Trello/Lists';
+import LeaderboardComponent from './Leaderboard';
+import AddPeopleComponent from './MemberStatus/AddPeople';
+import DeletePeopleComponent from './MemberStatus/DeletePeople';
 
 export {
   // eslint-disable-next-line import/prefer-default-export
@@ -22,5 +25,8 @@ export {
   ProjectContainerComponent,
   EditProjectComponent,
   ProjectDetailComponent,
-  TodoListsComponent
+  TodoListsComponent,
+  LeaderboardComponent,
+  AddPeopleComponent,
+  DeletePeopleComponent,
 };

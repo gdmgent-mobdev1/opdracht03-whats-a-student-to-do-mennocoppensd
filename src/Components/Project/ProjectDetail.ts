@@ -121,6 +121,9 @@ class ProjectDetailComponent extends Component {
       size: 1,
       textContent: project.title,
     }));
+    elements.push(Elements.createParagraph({
+      textContent: `Deadline: ${users[project.deadline]}`,
+    }));
 
     elements.push(Elements.createButton({
       textContent: 'Go to Subtasks',

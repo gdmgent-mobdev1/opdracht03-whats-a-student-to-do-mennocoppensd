@@ -19,18 +19,23 @@ class User {
 
   imageURL: string;
 
+  points: number;
+  id: string;
+
   constructor({
     name = '',
     surname = '',
     username = '',
     telephoneNumber = '',
     imageURL = '',
+    points = 0,
   }) {
     this.name = name;
     this.surname = surname;
     this.username = username;
     this.telephoneNumber = telephoneNumber;
     this.imageURL = imageURL;
+    this.points = points;
   }
 
   async writeUserData() {

@@ -2,7 +2,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { root, State } from '../../main';
 import { dragstartHandler } from '../../lib/dragAndDrop';
-import { deleteCardFromFirebase } from '../firebase';
+import { deleteCardFromFirebase, addCommentToFirebase } from '../firebase';
 import Comment from './Comment';
 import editableText from './EditableText';
 import TodoList from './TodoList';
@@ -44,6 +44,8 @@ class Card extends Component {
   id: string;
 
   parentId: string;
+
+  leaderboardContainer?: HTMLDivElement;
 
   // eslint-disable-next-line @typescript-eslint/default-param-last
   constructor(state: Partial<State> & { title: string }, place: HTMLElement, todoList: TodoList, id = `_${uuidv4()}`, parentId:string) {
@@ -113,6 +115,27 @@ class Card extends Component {
     this.commentsInput = document.createElement('input');
     this.commentsButton = document.createElement('button');
     this.menuComments = document.createElement('div');
+    this.leaderboardContainer = document.createElement('div');
+    this.leaderboardContainer.classList.add('leaderboard-container');
+    this.leaderboardContainer.innerHTML = `
+                    <div class="container-timer">
+                        <div class="outerRing">
+                            <div class="timer">
+                                <div id="time">
+                                    <span id="minutes">00</span>
+                                    <span id="colon">:</span>
+                                    <span id="seconds">10</span>
+                                </div>
+                                <div id="stsp">START</div>
+                                <span id="setting"><i class="fas fa-cog"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+    this.componentContainer.appendChild(this.leaderboardContainer);
+    import('../timer.ts').then(() => {
+      // Run the timer functionality here
+    });
 
     // Add class names
     this.menu.className = 'menu';
@@ -139,6 +162,7 @@ class Card extends Component {
     this.commentsButton.addEventListener('click', () => {
       if (this.commentsInput?.value !== '' && (this.commentsInput != null)) {
         this.state.comments?.push(this.commentsInput.value);
+        addCommentToFirebase(this.parentId!, this.id, this.commentsInput.value);
         this.renderComments();
         this.commentsInput.value = '';
       }
@@ -150,6 +174,7 @@ class Card extends Component {
     this.menu.append(this.commentsInput);
     this.menu.append(this.commentsButton);
     this.menu.append(this.menuComments);
+    this.menu.append(this.leaderboardContainer);
     this.menuContainer.append(this.menu);
     root.append(this.menuContainer);
     // eslint-disable-next-line new-cap

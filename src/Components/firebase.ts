@@ -80,6 +80,15 @@ const deleteTodoListFirebase = async (id: string) => {
 const deleteCardFromFirebase = async (todoListId: string, id: string) => {
   await firestore.deleteDoc(firestore.doc(fireStoreDb, `lists/${todoListId}/cards`, id));
 };
+const addCommentToFirebase = async (todoListId: string, id: string, comment:string) => {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const firestore = firebase.firestore();
+  const cardsRef = firestore.collection('lists').doc(todoListId).collection('cards').doc(id);
+
+  cardsRef.update({
+    comments: firebase.firestore.FieldValue.arrayUnion(comment),
+  });
+};
 
 export {
   //  Firebase
@@ -97,6 +106,7 @@ export {
   updateTodoFirebase,
   deleteTodoListFirebase,
   deleteCardFromFirebase,
+  addCommentToFirebase,
   query,
   orderBy,
   onSnapshot,

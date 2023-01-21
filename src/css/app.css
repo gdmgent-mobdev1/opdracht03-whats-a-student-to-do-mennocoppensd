@@ -40,6 +40,19 @@ h2.your-projects {
   text-transform: underline;
   font-size: 1.2em;
 }
+h2.your-leaderboard {
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 20px;
+  text-transform: underline;
+  font-size: 1.2em;
+}
+
+h5 {
+  padding-top: 2em;
+}
+
 .login-page {
   width: 90%;
   padding: 8% 0 0;
@@ -56,6 +69,18 @@ form {
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 .form input {
+  font-family: "Poppins", sans-serif;
+  outline: 0;
+  background: #2d2f38;
+  color: #fff;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+input#calender {
   font-family: "Poppins", sans-serif;
   outline: 0;
   background: #2d2f38;
@@ -173,7 +198,7 @@ button {
     
   }
 
-  .editProfile-container, .login-container, .register-container, .profile-container ,.projectDetail-container {
+  .editProfile-container, .login-container, .register-container, .profile-container ,.projectDetail-container, .addPeople-container, .deletePeople-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -182,6 +207,10 @@ button {
     padding-top: 1%;
     padding-bottom:20%;
     margin: auto;
+  }
+
+  .projectDetail-container p {
+    padding-top: 2em;
   }
   .login-page {
     padding-top: 8%;
@@ -249,6 +278,7 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-radius: 8px;
 }
 
 .editProfile-container form h3, .editProject-container form h3 {
@@ -293,8 +323,29 @@ button {
   background-color: #45a049;
 }
 
-.fa-edit:hover, .fa-times {
+.fa-times {
+  padding: 0.8rem;
+  border-radius: 8px;
+  background-color: rgb(138, 138, 138);
+}
+
+.fa-edit:hover, .fa-times:hover {
   cursor: pointer;
+    background-color: #4ebad8;
+    transition: all 0.4s ease-in-out;
+  
+}
+
+.fa-edit {
+  margin-left: 261px;
+  margin-top: -30px;
+  background-color: rgb(138, 138, 138);
+  padding: 0.8rem;
+  border-radius: 8px;
+}
+
+i.fa-3x {
+  font-size: 2em;
 }
 
 .editProfile-container .error-container, .editProject-container .error-container {
@@ -389,7 +440,7 @@ button.footer:hover, footer:hover{
     font-size: 18px;
     background-color: rgba(158, 158, 158, 0.254);
     padding: 20px;
-    width: 80%;
+    max-width: 320px;
     margin: auto;
     border-radius: 8px;
     margin-top: 20px;
@@ -409,7 +460,7 @@ button.footer:hover, footer:hover{
     display: flex;
     flex-direction: column;
     align-items: right;
-    width: 80%;
+    max-width: 320px;
     margin: 0 auto;
     padding: 20px;
     margin-top: 30px;
@@ -428,7 +479,7 @@ button.footer:hover, footer:hover{
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 70%;
+  width: 100%;
   border-radius: 8px;
 }
 
@@ -471,6 +522,9 @@ button.footer:hover, footer:hover{
   padding: 8px;
 }
 
+.lists p {
+  padding: 1em;
+}
 .delete-btn{
   outline: none;
   cursor: pointer;
@@ -488,7 +542,7 @@ button.footer:hover, footer:hover{
 .todoList{
   position: relative;
   border-radius: 8px;
-  min-height: 100px;
+  min-height: 250px;
   background: rgba(158, 158, 158, 0.254);
   padding: 0.7em;
   margin: 0.5em 0.5em 1em 1em;
@@ -497,7 +551,7 @@ button.footer:hover, footer:hover{
   max-width: 330px;
 
   overflow: hidden;
-  height: 80vh;
+  height: min-content;
 }
 
 .todoList h2{
@@ -562,15 +616,15 @@ button.footer:hover, footer:hover{
   top: 0;
   left: 0;
   background-color: rgb(235, 235, 235);
-  width: 500px;
-  min-height: 300px;
+  width: 180px;
+  min-height: 200px;
 
   margin: auto;
 
   padding: 1em;
   border-radius: 8px;
-  
 }
+
 
 .menuTitle{
   font-weight: bold;
@@ -607,6 +661,7 @@ button.footer:hover, footer:hover{
 
 .commentsInput{
   margin-right: 0.5em;
+  width: 100%;
 }
 
 .btn-save{
@@ -669,4 +724,286 @@ button.footer:hover, footer:hover{
   -ms-transform: rotate(180deg);
   -o-transform: rotate(180deg);
   transform: rotate(180deg);
+}
+
+/*
+* Pomodoro Timer 
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@700&display=swap");
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+.container-timer {
+  height: 40px;
+  width: 40px;
+  background-color: transparent;
+  position: relative;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+}
+
+.outerRing {
+  display: grid;
+  place-items: center;
+  /* margin: 50%; */
+  width: 175px;
+  height: 175px;
+  border-radius: 50%;
+  box-shadow: -5px 14px 44px #000000, 5px -16px 50px rgba(255, 255, 255, 0.15);
+  background: #bec1ca;
+  margin-top: 200px;
+  margin-left: -65px;
+}
+
+.timer {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #bec1ca;
+  box-shadow: inset 0px 0px 114px rgba(0, 0, 0, 0.45);
+  display: flex;
+  /* margin-top: 200px; */
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 4.9rem;
+}
+
+#time {
+  width: 140px;
+  text-align: center;
+  margin: 3rem 0 0 0;
+}
+
+#time span {
+  display: inline;
+  color: #fff;
+  font-family: Poppins;
+  font-size: 2rem;
+  letter-spacing: 0.1em;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#stsp {
+  color: #fff;
+  cursor: pointer;
+  font-family: Poppins;
+  font-weight: bold;
+  font-size: 1rem;
+  line-height: 1.25rem;
+  text-align: center;
+  letter-spacing: 0.6em;
+  margin: 1rem 0;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#setting {
+  cursor: pointer;
+  margin-top: 1rem;
+  margin-bottom: 20px;
+  width: 25px;
+  height: 25px;
+  color: #ffffff;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
+}
+
+/* Smaller version of Timer for the menuContainer */
+
+.menuContainer .container-timer {
+  height: 20px;
+  width: 20px;
+  background-color: transparent;
+  position: relative;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  margin: -20px;
+  margin-left: 40px;
+}
+
+.menuContainer .outerRing {
+  display: grid;
+  place-items: center;
+  /* margin: 50%; */
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  /* box-shadow: -5px 14px 44px #000000, 5px -16px 50px rgba(255, 255, 255, 0.15); */
+  background: #bec1ca;
+  margin-top: -260px;
+  margin-left: 20px;
+}
+
+.menuContainer .timer {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #bec1ca;
+  /* box-shadow: inset 0px 0px 114px rgba(0, 0, 0, 0.45); */
+  display: flex;
+  /* margin-top: 200px; */
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 1.9rem;
+}
+
+.menuContainer #time {
+  width: 140px;
+  text-align: center;
+  margin: 2rem 0 0 0;
+}
+
+.menuContainer #time span {
+  display: inline;
+  color: #fff;
+  font-family: Poppins;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  /* text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+}
+
+.menuContainer #stsp {
+  color: #fff;
+  cursor: pointer;
+  font-family: Poppins;
+  font-weight: bold;
+  font-size: 0.6rem;
+  line-height: 0.05rem;
+  text-align: center;
+  letter-spacing: 0.3em;
+  margin: 0.8rem 0;
+  /* text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+}
+
+.menuContainer #setting {
+  cursor: pointer;
+  margin-top: 0rem;
+  margin-bottom: 20px;
+  width: 15px;
+  height: 15px;
+  color: #ffffff;
+  /* box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25); */
+}
+
+/*
+* Leaderboard Page
+*/
+
+
+button.your-leaderboard {
+  background-color: #5ddcff;
+  transition: all 0.4s ease-in-out;
+  border: none;
+  max-width: 200px;
+  border-radius: 8px;
+  width:200px;
+  height:40px;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  margin-top: 250px;
+  margin-left: -100px;
+  
+}
+
+button.your-leaderboard:hover{
+  background-color: #4ebad8;
+  transition: all 0.4s ease-in-out;
+
+}
+
+.users-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  max-width: 400px; 
+  height: 60px;
+  margin: 0 auto; 
+  padding: 0;
+  background-color: rgba(158, 158, 158, 0.254);
+  border-radius: 8px;
+
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.user-info img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.user-info .user-name {
+  font-size: 0.8em;
+  font-weight: bold;
+  color: #fff;
+}
+
+.user-points {
+  font-size: 0.8em;
+  font-weight: bold;
+  color: #5ddcff;
+}
+
+/*
+* Add people Page
+*/
+
+.row_lists {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  max-width: 250px; 
+  margin: 0 auto; 
+  padding: 50px;
+  margin-top: 20px;
+  background-color: rgba(158, 158, 158, 0.254);
+  border-radius: 8px;
+
+}
+
+.checkbox {
+	display: flex;
+	position: relative;
+	padding-left: 32px;
+	margin-bottom: 12px;
+	cursor: pointer;
+  color: #fff;
+	font-size: 22px;
+	user-select: none;
+	transition: padding-left 0.15s ease-in-out;
+}
+
+.checkbox:hover {
+	padding-left: 35px;
+}
+
+.checkbox input {
+	position: absolute;
+	opacity: 1;
+	cursor: pointer;
+  margin-left: -20px;
+  margin-top: 5px
+  ;
 }

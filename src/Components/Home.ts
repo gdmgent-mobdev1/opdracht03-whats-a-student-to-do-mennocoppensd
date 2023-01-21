@@ -9,6 +9,7 @@ import Projects from './Project/Projects';
 import InviteService from './Invite/Invite';
 import Invite from './Invite/Invite';
 import InviteContainerComponent from './Invite/InviteContainer';
+import Router from './Router';
 
 // Home component that acts as a dashboard for logged in users
 class HomeComponent extends Component {
@@ -58,12 +59,38 @@ class HomeComponent extends Component {
         textContent: 'Welcome!',
         className: 'welcome',
       }),
+      Elements.createButton({
+        textContent: 'leaderboard',
+        className: 'your-leaderboard',
+        onClick: () => Router.getRouter().navigate('/leaderboard'),
+      }),
       Elements.createHeader({
         size: 2,
         textContent: 'Your Projects',
         className: 'your-projects',
       }),
     ];
+    const leaderboardContainer = document.createElement('div');
+    leaderboardContainer.classList.add('leaderboard-container');
+    leaderboardContainer.innerHTML = `
+                    <div class="container-timer">
+                        <div class="outerRing">
+                            <div class="timer">
+                                <div id="time">
+                                    <span id="minutes">00</span>
+                                    <span id="colon">:</span>
+                                    <span id="seconds">10</span>
+                                </div>
+                                <div id="stsp">START</div>
+                                <span id="setting"><i class="fas fa-cog"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+    this.componentContainer.appendChild(leaderboardContainer);
+    import('./timer.ts').then(() => {
+      // Run the timer functionality here
+    });
 
     // Credits to Bjorn for the help with this part (line 62-82)
 

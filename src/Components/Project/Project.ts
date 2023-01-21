@@ -15,6 +15,8 @@ class Project {
 
   description: any;
 
+  deadline: any;
+
   createdOn: any;
 
   invited: any[];
@@ -31,9 +33,11 @@ class Project {
     organiser,
     title,
     description,
+    deadline,
   }:any) {
     this.organiser = organiser;
     this.title = title;
+    this.deadline = deadline;
     this.projectId = null;
     this.description = description;
     this.createdOn = null;
@@ -50,6 +54,7 @@ class Project {
       organiser: this.organiser,
       title: this.title,
       description: this.description,
+      deadline: this.deadline,
       invited: this.invited,
       joined: this.joined,
       rejected: this.rejected,

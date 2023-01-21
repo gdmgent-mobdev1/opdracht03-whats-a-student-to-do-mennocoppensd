@@ -3,6 +3,9 @@ import { v4 as uuidv4 } from 'uuid';
 import Card from './Card';
 
 export default class Comment {
+  getElement(): any {
+    throw new Error('Method not implemented.');
+  }
   title: string;
 
   place: HTMLElement;

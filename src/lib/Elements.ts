@@ -255,7 +255,7 @@ class Elements {
     if (name) element.name = name;
     if (id) element.setAttribute('id', id);
     element.className = className;
-    if (type === 'text' || type === 'password' || type === 'email') {
+    if (type === 'text' || type === 'password' || type === 'email' || type === 'date') {
       element.type = type;
       element.placeholder = placeholder;
       element.value = value;
